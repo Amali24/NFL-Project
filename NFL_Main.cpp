@@ -23,12 +23,6 @@ void main(){
 	
 	statsIn.open(fileName);
 
-	for (int q = 0; q < QBS; q++){
-		for (int i = 0; i < STATS; i++){
-			statsIn >> stats[q][i];
-		}
-	}
-
 	while (!statsIn){
 		cout
 			<< "File not found." << endl
@@ -37,13 +31,20 @@ void main(){
 		getline(cin, fileName);
 		statsIn.open(fileName);
 	}
+	
+	for (int q = 0; q < QBS; q++){
+		for (int i = 0; i < STATS; i++){
+			statsIn >> stats[q][i];
+		}
+	}
+
+	
 
 	for (int q = 0; q < QBS; q++){
 		for (int i = 0; i < STATS; i++){
 			cout << stats[q][i];
 			}
 		}
-
 
 	statsIn.close();
 
