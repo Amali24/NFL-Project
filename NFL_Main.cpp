@@ -14,6 +14,7 @@ void main(){
 	const int QBS = 32, STATS = 5;
 	string fileName;
 	ifstream statsIn;
+	char char1;
 	int stats[QBS][STATS];
 
 	printTitle(cout);
@@ -38,16 +39,19 @@ void main(){
 		}
 	}
 
+	printMainMenu();
+	cin >> char1;		cin.ignore(80, '\n');
 	
-
-	for (int q = 0; q < QBS; q++){
-		for (int i = 0; i < STATS; i++){
-			cout << stats[q][i];
-			}
-		}
+	switch (char1){
+	case 'A': 
+	case 'B': printStatMenu();		break;
+	case 'C': exitProgram();		break;
+	default: 
+		cout << "Please enter 1, 2, or 3: ";
+		cin >> char1;		cin.ignore(80, '\n');
+	}
 
 	statsIn.close();
-
 	system("pause");
 }
 
@@ -80,8 +84,8 @@ void main(){
 26 - Fitz
 27 - Sanchez
 28 - McCown
-30 - Davis
-31 - Stanton
-32 - Cousins
-
+29 - Davis
+30 - Stanton
+31 - Cousins
+32 - Mettenberger
 */
