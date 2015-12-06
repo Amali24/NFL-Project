@@ -16,3 +16,7 @@ void printMainMenu(ostream &output = cout);
 void printStatMenu(ostream &output = cout);
 
 void exitProgram();
+
+char getLetter();
+
+char makeCaps(char x);

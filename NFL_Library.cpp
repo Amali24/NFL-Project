@@ -35,3 +35,27 @@ void printStatMenu(ostream &output){
 		<< "K - Touchdown : Interception Ratio" << endl
 		<< "L - Passer Rating" << endl;
 }
+
+char getLetter(){
+	char x;
+
+	cin >> x;		cin.ignore(80, '\n');
+	while (x < 'A' || x > 'z' || x > 'Z' && x < 'a'){
+		cout
+			<< "\tPlease enter a letter." << endl
+			<< "\tTry again:" << endl;
+		cin >> x;		cin.ignore(80, '\n');
+	}
+	return x;
+}
+
+char makeCaps(char x){
+	if (x >= 'a' && x <= 'z'){
+		x += char('A' - 'a');
+	}
+	return x;
+}
+
+void exitProgram(){
+
+}
