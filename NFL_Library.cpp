@@ -36,6 +36,11 @@ void printStatMenu(ostream &output){
 		<< "L - Passer Rating" << endl;
 }
 
+char getStatMenuChoice(){
+	printStatMenu();
+	char x = getCapsLetter();
+}
+
 char getLetter(){
 	char x;
 
@@ -51,11 +56,17 @@ char getLetter(){
 
 char makeCaps(char x){
 	if (x >= 'a' && x <= 'z'){
-		x += char('A' - 'a');
+		x += 'A' - 'a';
 	}
 	return x;
 }
 
 void exitProgram(){
 
+}
+
+char getCapsLetter(){
+	char x = getLetter();
+	makeCaps(x);
+	return x;
 }

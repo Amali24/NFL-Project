@@ -15,8 +15,12 @@ void printMainMenu(ostream &output = cout);
 // Postconditions: Prints a formatted menu of stats
 void printStatMenu(ostream &output = cout);
 
+char getStatMenuChoice();
+
 void exitProgram();
 
 char getLetter();
 
 char makeCaps(char x);
+
+char getCapsLetter();

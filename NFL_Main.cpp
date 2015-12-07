@@ -11,12 +11,12 @@
 using namespace std;
 
 void main(){
-	const int QBS = 32, STATS = 5; // Number of individuals, and stats per individual
-	string fileIn, fileOut; // String for holding filename of input and output
-	ifstream statsIn; // ifstream for input file
-	ofstream statsOut; // ofstream for output file
-	char char1, char2; // character variables for menu choices
-	int stats[QBS][STATS]; // 2 dimensional array holds stats
+	const int QBS = 32, STATS = 12;		// Number of individuals, and stats per individual
+	string fileIn, fileOut;				// String for holding filename of input and output
+	ifstream statsIn;					// ifstream for input file
+	ofstream statsOut;					// ofstream for output file
+	char mmChoice, smChoice;			// character variables for menu choices
+	int stats[QBS][STATS];				// 2 dimensional array holds stats
 
 	printTitle(cout); // Print title block
 
@@ -42,21 +42,30 @@ void main(){
 
 	cout << "\n";
 	printMainMenu(); // Print main menu after array filled
-	char1 = getLetter(); // get a letter
-	char1 = makeCaps(char1); // make that letter uppercase if it is not
+	mmChoice = getCapsLetter(); // get a letter
 
-	while (char1 != 'A' && char1 != 'B' && char1 != 'C'){  // If invalid choice entered, re-prompt
-	cout << "Please enter 'A', 'B', or 'C': ";
-	char1 = getLetter();
-}
+	switch (mmChoice){ // Both A and B get choice from stats menu, specific choice handled later
+	
+	case 'A':
+	
+	case 'B': smChoice = getStatMenuChoice();		break;
+	
+	case 'C': statsIn.close(); exitProgram();	break; // Close file and run exit function
+	}
 
-	switch (char1){ // Both A and B display stats menu, specific choice handled later
-	
-	case 'A': printStatMenu();		break;
-	
-	case 'B': printStatMenu();		break;
-	
-	case 'C': statsIn.close(); exitProgram(); break; // Close file and run exit function
+	switch (smChoice){
+	case 'A': // Completions (raw)
+	case 'B': // Attempts"
+	case 'C': // Completion Percentage
+	case 'D': // Yards
+	case 'E': // Yards per attempt
+	case 'F': // Yards per completion
+	case 'G': // Touchdowns
+	case 'H': // Attempts per Touchdown
+	case 'I': // Interceptions
+	case 'J': // Attempts per Interception
+	case 'K': // Touchdown : Interception Ratio
+	case 'L': // Passer Rating
 	}
 
 	system("pause");
