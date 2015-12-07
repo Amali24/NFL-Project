@@ -16,7 +16,8 @@ void main(){
 	ifstream statsIn;					// ifstream for input file
 	ofstream statsOut;					// ofstream for output file
 	char mmChoice, smChoice;			// character variables for menu choices
-	int stats[QBS][STATS];				// 2 dimensional array holds stats
+	int stats[QBS][STATS];				// 2 dimensional array holds stats index by QB number
+	string nameQBs[32];					// Parallel array to hold names of QBs
 
 	printTitle(cout); // Print title block
 
