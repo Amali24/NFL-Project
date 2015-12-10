@@ -11,19 +11,23 @@
 using namespace std;
 
 void main(){
-	const int QBS = 32, STATS = 12;		// Number of individuals, and stats per individual
-	string fileIn, fileOut;				// String for holding filename of input and output
-	ifstream statsIn;					// ifstream for input file
-	ofstream statsOut;					// ofstream for output file
-	char mmChoice, smChoice;			// character variables for menu choices
-	int stats[QBS][STATS];				// 2 dimensional array holds stats index by QB number
-	string nameQBs[32];					// Parallel array to hold names of QBs
+	const int
+		QBS = 32,					// Number of QBs
+		INPUTTED_STATS = 5,			// Number of stats being read from file
+		TOTAL_STATS = 12;			// Number of stats, included those calculated at runtime
+	string fileIn, fileOut;			// String for holding filename of input and output
+	ifstream statsIn;				// Input file
+	ofstream statsOut;				// Output file
+	char mmChoice, smChoice;		// Menu choices
+	double stats[QBS][TOTAL_STATS];		// holds stats indexed by QB number
+	string nameQBs[QBS];			// Parallel array to hold names of QBs
+
+	///////////////////////////////////////////////////////////////////////////////////////////
 
 	printTitle(cout); // Print title block
 
 	cout << "What is the filename of your stats file? ";
 	getline(cin, fileIn); // Get user input for input file
-
 	statsIn.open(fileIn); // Open input file
 
 	while (!statsIn){ // If file not found, re-prompt
@@ -35,13 +39,10 @@ void main(){
 		statsIn.open(fileIn);
 	}
 
-	for (int q = 0; q < QBS; q++){ // read from file 5 stats per each of 32 QBs
-		for (int i = 0; i < STATS; i++){
-			statsIn >> stats[q][i];
-		}
-	}
+	loadStatArray(statsIn, stats, QBS, INPUTTED_STATS); // fill stats array
 
-	cout << "\n";
+	cout << endl;
+
 	printMainMenu(); // Print main menu after array filled
 	mmChoice = getCapsLetter(); // get a letter
 
@@ -49,7 +50,7 @@ void main(){
 	
 	case 'A':
 	
-	case 'B': smChoice = getStatMenuChoice();		break;
+	case 'B': printStatMenu();  smChoice = getCapsLetter();		break; // Prints stats menu and gets choice
 	
 	case 'C': statsIn.close(); exitProgram();	break; // Close file and run exit function
 	}
@@ -67,42 +68,43 @@ void main(){
 	case 'J': // Attempts per Interception
 	case 'K': // Touchdown : Interception Ratio
 	case 'L': // Passer Rating
+		break;
 	}
 
 	system("pause");
 }
 
 /*
-case 1 : Drew Brees
-case 2 : Ben Roethlisberger
-case 3 : Andrew Luck
-case 4 : Peyton Manning
-case 5 : Matt Ryan
-case 6 : Eli Manning			
-case 7 : Aaron Rodgers
-case 8 : Phillip Rivers
-case 9 : Matt Stafford
-case 10: Tom Brady
-case 11: Ryan Tannehill
-case 12: Joe Flacco
-case 13: Jay Cutler
-case 14: Tony Romo
-case 15: Russell Wilson
-case 16: Andy Dalton
-case 17: Colin Kaepernick
-case 18: Brian Hoyer
-case 19: Derek Carr
-case 20: Alex Smith
-case 21: Cam Newton
-case 22: Kyle Orton
-case 23: Teddy Bridgewater
-case 24: Blake Bortles
-case 25: Geno Smith
-case 26: Ryan Fitzpatrick
-case 27: Mark Sanchez
-case 28: Josh McCown (TB)
-case 29: Austin Davis (STL)
-case 30: Drew Stanton (ARI)
-case 31: Kirk Cousins
-case 32: Zach Mettenberger (TEN)
+Drew Brees
+Ben Roethlisberger
+Andrew Luck
+Peyton Manning
+Matt Ryan
+Eli Manning			
+Aaron Rodgers
+Phillip Rivers
+Matt Stafford
+Tom Brady
+Ryan Tannehill
+Joe Flacco
+Jay Cutler
+Tony Romo
+Russell Wilson
+Andy Dalton
+Colin Kaepernick
+Brian Hoyer
+Derek Carr
+Alex Smith
+Cam Newton
+Kyle Orton
+Teddy Bridgewater
+Blake Bortles
+Geno Smith
+Ryan Fitzpatrick
+Mark Sanchez
+Josh McCown
+Austin Davis
+Drew Stanton
+Kirk Cousins
+Zach Mettenberger
 */

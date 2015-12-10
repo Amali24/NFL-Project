@@ -15,7 +15,7 @@ void printMainMenu(ostream &output = cout);
 // Postconditions: Prints a formatted menu of stats
 void printStatMenu(ostream &output = cout);
 
-char getStatMenuChoice();
+void loadStatArray(istream &input, double statsArray[][12], int numQBs, int numStats);
 
 void exitProgram();
 

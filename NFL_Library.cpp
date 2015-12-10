@@ -36,11 +36,6 @@ void printStatMenu(ostream &output){
 		<< "L - Passer Rating" << endl;
 }
 
-char getStatMenuChoice(){
-	printStatMenu();
-	char x = getCapsLetter();
-}
-
 char getLetter(){
 	char x;
 
@@ -67,6 +62,16 @@ void exitProgram(){
 
 char getCapsLetter(){
 	char x = getLetter();
-	makeCaps(x);
+	
+	x = makeCaps(x);
+	
 	return x;
+}
+
+void loadStatArray(istream &input, double statsArray[][12], int numQBs, int numStats){
+	for (int q = 0; q < numQBs; q++){
+		for (int i = 0; i < numStats; i++){
+			input >> statsArray[i][q];
+		}
+	}
 }
