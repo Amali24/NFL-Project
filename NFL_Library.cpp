@@ -1,7 +1,6 @@
 #include "NFL_Prototypes.h"
 #include <iostream>
 #include <fstream>
-#include <iomanip>
 #include <string>
 using namespace std;
 
@@ -27,17 +26,10 @@ void getFileName(ifstream &file){
 	}
 }
 
-void printMainMenu(ostream &output){
-	cout
-		<< "\tPlease select an option: " << endl
-		<< "A - Print Season Rankings" << endl
-		<< "B - Print per Game Rankings" << endl
-		<< "C - Exit Program" << endl;
-}
 
 void printStatMenu(ostream &output){
 	cout
-		<< "\tPlease select a stat:" << endl
+		<< "\tPlease select a stat or 'M' to exit:" << endl
 		<< "A - Completions (raw)" << endl
 		<< "B - Attempts" << endl
 		<< "C - Completion Percentage" << endl
@@ -49,7 +41,8 @@ void printStatMenu(ostream &output){
 		<< "I - Interceptions" << endl
 		<< "J - Interception per Attempt" << endl
 		<< "K - Touchdown : Interception Ratio" << endl
-		<< "L - Passer Rating" << endl;
+		<< "L - Passer Rating" << endl
+		<< "M - Exit Program" << endl;
 }
 
 char getLetter(){
@@ -148,7 +141,7 @@ int getStatIndex(char c){
 	}
 }
 
-void findIndexRanks(double statsArray[][12], int (&rankArray)[32], int indexOfStatToCheck, int numToRank, ostream &output, int numQBs){
+void findIndexRanks(double statsArray[][12], int (&rankArray)[32], int indexOfStatToCheck, int numToRank, int numQBs){
 	for (int q = 0; q < numToRank; q++)
 		for (int i = 0; i < numQBs; i++)
 			if (statsArray[i][indexOfStatToCheck] > statsArray[rankArray[q]][indexOfStatToCheck])

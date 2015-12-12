@@ -1,7 +1,7 @@
 // Reads NFL QB Statistics From File, with Various Calculations and Ouputs
 // NFL_Project.exe
 // Programmer: Andrew Thomas
-// As of: 12/2/2015
+// As of: 12/11/2015
 
 #include "NFL_Prototypes.h"
 #include <iostream>
@@ -45,34 +45,12 @@ void main(){
 
 	cout << endl << endl;
 
-	printMainMenu(); // Print main menu after arrays filled
-	mmChoice = getLetterBefore('C'); // get a letter
+	printStatMenu();  smChoice = getLetterBefore('M'); indexSmChoice = getStatIndex(smChoice);
 
-	switch (mmChoice){ // Both A and B get choice from stats menu, specific choice handled later
-	
-	case 'A':
-	
-	case 'B': printStatMenu();  smChoice = getLetterBefore('L'); indexSmChoice = getStatIndex(smChoice);				break; // Prints stats menu and gets choice
-	
-	case 'C': exitProgram(); // Run exit function
-	}
-	
 	cout << "How many players would you like to rank? ";
 	numToRank = getInTheRange(0, 32);
 
 	findIndexRanks(stats, rankArray, indexSmChoice, numToRank);
-
-	for (int i = 0; i < 32; i++){
-		cout << rankArray[i] << '\n';
-	}
-
-	/*for (int q = 0; q < QBS; q++){
-		cout << nameQBs[rankArray[q]] << '\n';
-		for (int i = 0; i < TOTAL_STATS; i++){
-			cout << fixed << setprecision(2) << stats[rankArray[q]][i] << '\t';
-		}
-		cout << endl;
-	}*/
 
 	system("pause");
 }
