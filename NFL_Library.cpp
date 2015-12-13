@@ -142,10 +142,14 @@ int getStatIndex(char c){
 }
 
 void findIndexRanks(double statsArray[][12], int (&rankArray)[32], int indexOfStatToCheck, int numToRank, int numQBs){
-	for (int q = 0; q < numToRank; q++)
-		for (int i = 0; i < numQBs; i++)
-			if (statsArray[i][indexOfStatToCheck] > statsArray[rankArray[q]][indexOfStatToCheck])
-				rankArray[q] = i;
+	rankArray[0] = 0;
+	for (int i = 0; i < numToRank; i++){
+		for (int q = 0; q < numQBs; q++){
+			if (statsArray[q][indexOfStatToCheck] > statsArray[rankArray[i]][indexOfStatToCheck]){
+				rankArray[i] = q;
+			}
+		}
+	}
 }
 
 double getNum() {
