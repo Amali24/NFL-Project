@@ -126,30 +126,38 @@ void exitProgram(){
 
 int getStatIndex(char c){
 	switch (c){
-	case 'A': return 0;		break;
-	case 'B': return 1;		break;
-	case 'C': return 5;		break;
-	case 'D': return 2;		break;
-	case 'E': return 6;		break;
-	case 'F': return 7;		break;
-	case 'G': return 3;		break;
-	case 'H': return 8;		break;
-	case 'I': return 4;		break;
-	case 'J': return 9;		break;
-	case 'K': return 10;	break;
-	case 'L': return 11;	break;
+	case 'A': return 0;		break; // Completions
+	case 'B': return 1;		break; // Attempts
+	case 'C': return 5;		break; // Completion Percentage
+	case 'D': return 2;		break; // Yards
+	case 'E': return 6;		break; // YpA
+	case 'F': return 7;		break; // YpC
+	case 'G': return 3;		break; // Touchdowns
+	case 'H': return 8;		break; // TDpA
+	case 'I': return 4;		break; // Int
+	case 'J': return 9;		break; // Int/A
+	case 'K': return 10;	break; // TD : INT
+	case 'L': return 11;	break; // Passer Rating
 	}
 }
 
 void findIndexRanks(double statsArray[][12], int (&rankArray)[32], int indexOfStatToCheck, int numToRank, int numQBs){
-	rankArray[0] = 0;
-	for (int i = 0; i < numToRank; i++){
-		for (int q = 0; q < numQBs; q++){
-			if (statsArray[q][indexOfStatToCheck] > statsArray[rankArray[i]][indexOfStatToCheck]){
-				rankArray[i] = q;
+		bool swapped = true;
+		while (swapped) {
+			swapped = false;
+			for (int i = 0; i < numToRank; i++) {
+				if (statsArray[i][indexOfStatToCheck] > statsArray[i + 1][indexOfStatToCheck]) {
+					rankArray[i] = i;
+					rankArray[i + 1] = i + 1;
+					swapped = true;
+				}
 			}
 		}
-	}
+	
+	/* for (int i = 0; i < numToRank; i++)
+		for (int q = 0; q < numQBs; q++)
+			if (statsArray[q][indexOfStatToCheck] > statsArray[rankArray[i]][indexOfStatToCheck] && q != rankArray[i])
+				rankArray[i] = q; */
 }
 
 double getNum() {

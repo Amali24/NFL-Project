@@ -49,8 +49,14 @@ void main(){
 
 	cout << "How many players would you like to rank? ";
 	numToRank = getInTheRange(0, 32);
+	
+	for (int k = 0; k < numToRank; k++)
+		rankArray[k] = 0;
 
 	findIndexRanks(stats, rankArray, indexSmChoice, numToRank);
+
+	for (int q = 0; q < numToRank; q++)
+		cout << nameQBs[rankArray[q]] << "\t\t" << stats[rankArray[q]][indexSmChoice] << "\n";
 
 	system("pause");
 }
