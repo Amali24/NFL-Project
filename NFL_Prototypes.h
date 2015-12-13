@@ -32,7 +32,7 @@ char getLetterBefore(char end);
 
 void addCalcStats(double (&statsArray)[32][12], int numQBs = 32, int numFileStats = 5);
 
-void findIndexRanks(double statsArray[][12], int (&rankArray)[32], int indexOfStatToCheck = 2, int numToRank = 10, int numQBs = 32);
+void findIndexRanks(double statsArray[][12], int (&rankArray)[32], int indexOfStatToCheck = 2, int numQBs = 32);
 
 int getStatIndex(char c);
 
