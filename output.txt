@@ -1,0 +1,45 @@
+
+The highest QB in Completion Percentage was Tony Romo with 69.9%
+The lowest QB in Completion Percentage was Drew Stanton with 55.0%
+
+The league average in Completion Percentage was 62.80%.
+
+The following QBs were above average in Completion Percentage: 
+
+Drew Brees        	69.2%
+Ben Roethlisberger	67.1%
+Peyton Manning    	66.2%
+Matt Ryan         	66.1%
+Eli Manninng      	63.1%
+Aaron Rodgers     	65.6%
+Phillip Rivers    	66.5%
+Tom Brady         	64.1%
+Ryan Tannehill    	66.4%
+Jay Cutler        	66.0%
+Tony Romo         	69.9%
+Russell Wilson    	63.1%
+Andy Dalton       	64.2%
+Alex Smith        	65.3%
+Kyle Orton        	64.2%
+Teddy Bridgewater 	64.4%
+Ryan Fitzpatrick  	63.1%
+Mark Sanchez      	64.1%
+Austin Davis      	63.4%
+------------------------------------------------------------------------------
+
+The following QBs were below average in Completion Percentage: 
+
+Andrew Luck       	61.7%
+Matt Stafford     	60.3%
+Joe Flacco        	62.1%
+Colin Kaepernick  	60.5%
+Brian Hoyer       	55.3%
+Derek Carr        	58.1%
+Cam Newton        	58.5%
+Blake Bortles     	58.9%
+Geno Smith        	59.7%
+Josh McCown       	56.3%
+Drew Stanton      	55.0%
+Kirk Cousins      	61.8%
+Zach Mettenberger 	59.8%
+------------------------------------------------------------------------------

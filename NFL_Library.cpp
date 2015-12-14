@@ -42,9 +42,8 @@ void getFileName(ofstream &file){
 	}
 }
 
-
 void printStatMenu(ostream &output){
-	cout
+	output
 		<< "\tPlease select a stat or 'M' to exit:" << endl
 		<< "A - Completions (raw)" << endl
 		<< "B - Attempts" << endl
@@ -64,10 +63,10 @@ void printStatMenu(ostream &output){
 char getLetter(){
 	char x;
 
-	cin >> x;		cin.ignore(80, '\n');
+	cin >> x;		cin.ignore(80, '\n'); // get character from keyboard
 	while (x < 'A' || x > 'z' || x > 'Z' && x < 'a'){
 		cout
-			<< "\tPlease enter a letter." << endl
+			<< "\tPlease enter a letter." << endl // reprompt if not letter
 			<< "\tTry again:" << endl;
 		cin >> x;		cin.ignore(80, '\n');
 	}
@@ -75,40 +74,39 @@ char getLetter(){
 }
 
 char makeCaps(char x){
-	if (x >= 'a' && x <= 'z'){
-		x += 'A' - 'a';
-	}
+	if (x >= 'a' && x <= 'z') // if letter lower
+		x += 'A' - 'a'; // make upper
 	return x;
 }
 
 char getLetterBefore(char end){
-	char x = getCapsLetter();
-	while (x > 'M'){
-		cout << x << " is not a valid choice. Try again: ";
+	char x = getCapsLetter(); // get caps
+	while (x > end){ // if letter higher than end, 
+		cout << x << " is not a valid choice. Try again: "; // reprompt
 		x = getCapsLetter();
 	}
 	return x;
 }
 
 char getCapsLetter(){
-	char x = getLetter();
+	char x = getLetter(); // get letter
 	
-	x = makeCaps(x);
+	x = makeCaps(x); // make it caps
 	
 	return x;
 }
 
 void loadStatArray(istream &input, double statsArray[][12], int numQBs, int numStats){
-	for (int q = 0; q < numQBs; q++){
-		for (int i = 0; i < numStats; i++){
+	for (int q = 0; q < numQBs; q++){ // for each QB
+		for (int i = 0; i < numStats; i++){ // load 5 stats
 			input >> statsArray[q][i];
 		}
 	}
 }
 
-void loadNameArray(istream &input, string nameArray[], int numQBs){
-	for (int i = 0; i < numQBs; i++)
-		getline(input, nameArray[i]);
+void loadNameArray(istream &input, string nameArray[], int numQBs, char c){
+	for (int i = 0; i < numQBs; i++) // load names into string array
+		getline(input, nameArray[i], c);
 }
 
 
@@ -120,14 +118,17 @@ void addCalcStats(double (&statsArray)[32][12], int numQBs, int numFileStats){
 		statsArray[q][8] = statsArray[q][3] / statsArray[q][1];			// Touchdowns per Attempt
 		statsArray[q][9] = statsArray[q][4] / statsArray[q][1];			// Interceptions per Attempt
 		statsArray[q][10] = statsArray[q][3] / statsArray[q][4];		// Touchdown : Interception Ratio
-		statsArray[q][11] = ((((statsArray[q][5] - .3) * 5) + ((statsArray[q][6] - 3) * .25) + (statsArray[q][8] * 20) + (2.375 - (statsArray[q][9] * 25))) / 6) * 100;					// Passer Rating
+		statsArray[q][11] = ((((statsArray[q][5] - .3) * 5) + ((statsArray[q][6] - 3) * .25)
+			+ (statsArray[q][8] * 20) + (2.375 - (statsArray[q][9] * 25))) / 6) * 100;		
+																		// Passer Rating
 	}
 }
 
 char getYesNo(){
-	char c = getCapsLetter();
-	while (c != 'Y' && c != 'N'){
-		cout << "Please enter \'Y\' or \'N\'. Try again: ";
+	char c = getCapsLetter(); // get uppercase letter
+	
+	while (c != 'Y' && c != 'N'){ // if letter isn't 'Y' or 'N'
+		cout << "Please enter \'Y\' or \'N\'. Try again: "; // reprompt
 		c = getCapsLetter();
 	}
 	return c;
@@ -135,8 +136,9 @@ char getYesNo(){
 
 void exitProgram(){
 	cout << "Are you sure you want to exit? ";
-	char yesNo = getYesNo();
-	if (yesNo == 'Y')
+	char yesNo = getYesNo(); // confirm intent to exit
+	
+	if (yesNo == 'Y') // exit
 		exit(0);
 }
 
@@ -154,21 +156,25 @@ int getStatIndex(char c){
 	case 'J': return 9;		break; // Int/A
 	case 'K': return 10;	break; // TD : INT
 	case 'L': return 11;	break; // Passer Rating
+	default:  return -1; // error code
 	}
 }
 
 int findIndexofMax(double statsArray[][12], int indexOfStatToCheck, int numQBs){
 	int maxIndex = 0;
-	for (int i = 0; i < numQBs; i++){
+
+	for (int i = 0; i < numQBs; i++){ // check full array for largest value
 		if (statsArray[i][indexOfStatToCheck] > statsArray[maxIndex][indexOfStatToCheck])
 			maxIndex = i;
 	}
+
 	return maxIndex;
 }
 
 int findIndexofMin(double statsArray[][12], int indexOfStatToCheck, int numQBs){
 	int minIndex = 0;
-	for (int i = 0; i < numQBs; i++){
+	
+	for (int i = 0; i < numQBs; i++){ // check full array for largest value
 		if (statsArray[i][indexOfStatToCheck] < statsArray[minIndex][indexOfStatToCheck])
 			minIndex = i;
 	}
@@ -178,10 +184,12 @@ int findIndexofMin(double statsArray[][12], int indexOfStatToCheck, int numQBs){
 double calcAverageValue(double statsArray[][12], int indexOfStatToCheck, int numQBs){
 	double sum = 0;
 	int i = 0;
-	for (; i < numQBs; i++){
+	
+	for (; i < numQBs; i++){ // add all values into sum
 		sum += statsArray[i][indexOfStatToCheck];
 	}
-	return sum / i;
+	
+	return sum / i; // return average
 }
 
 string findStatLabel(int statIndex){
@@ -198,12 +206,137 @@ string findStatLabel(int statIndex){
 	case 9:  return "Interceptions per Attempt";		break; // Int/A
 	case 10: return "Touchdown : Interception Ratio";	break; // TD : INT
 	case 11: return "Passer Rating";					break; // Passer Rating
+	default: return "Stat not found"; // error code
 	}
 }
 
-void printOutput(char menuChoice, double stats[][12], int indexSmChoice, int index, string names[], ostream &output){
-	output << fixed << showpoint;
+void printAvg(int indexSmChoice, double avg, ostream &output){
+	output << fixed << showpoint; // force decimal
+	if (indexSmChoice == 8 || indexSmChoice == 9)
+		output << setprecision(3); // small number stats require 3 decimal places
+
+	else
+		output << setprecision(2); // larger one only require two
 	
+	output << "The league average in " << findStatLabel(indexSmChoice) << " was ";
+
+	if (indexSmChoice == 5)
+		output << avg * 100 << "%"; // percentage logic
+
+	else
+		output << avg;
+
+	output << ".";
+}
+
+char getValidMenuChoice(char choice1, char choice2){
+	char menuChoice = getCapsLetter();
+
+	while (menuChoice != choice1 && menuChoice != choice2){
+		cout << "Please make a valid selection: ";
+		menuChoice = getCapsLetter();
+	}
+
+	return menuChoice;
+}
+
+void printValuesAbove(double stats[][12], string names[], int indexSmChoice, double above, int size, ostream &output){
+	output << "The following QBs were above average in " << findStatLabel(indexSmChoice) << ": " << endl << endl; // intro statement
+	
+	for (int i = 0; i < size; i++){
+		if (stats[i][indexSmChoice] > above){ // if a QB is below average, print his stat
+			output << left << setw(18) << names[i];
+			output << right << fixed << showpoint << "\t"; // force decimal (more stats require it than don't)
+
+			if (indexSmChoice == 5 || indexSmChoice == 11) // one decimal for larger numbers
+				output << setprecision(1);
+
+			else if (indexSmChoice == 6 || indexSmChoice == 7 || indexSmChoice == 10) // two for medium numbers
+				output << setprecision(2);
+
+			else if (indexSmChoice == 8 || indexSmChoice == 9) // three for smallest numbers
+				output << setprecision(3);
+
+			else
+				output << noshowpoint << setprecision(0); // remove decimal for integer stats
+
+			if (indexSmChoice == 5) // percentage logic
+				output << stats[i][indexSmChoice] * 100 << "%";
+
+			else
+				output << stats[i][indexSmChoice];
+
+			output << endl;
+		}
+	}
+	
+	for (int k = 0; k < 78; k++) // seperator line
+		output << "-";
+		
+	}
+
+void printValuesBelow(double stats[][12], string names[], int indexSmChoice, double below, int size, ostream &output){
+	output << "The following QBs were below average in " << findStatLabel(indexSmChoice) << ": " << endl << endl; // see"above" function for full description, they're nearly identical
+
+	for (int i = 0; i < size; i++){
+		if (stats[i][indexSmChoice] < below){
+			output << left << setw(18) << names[i];
+			output << right << fixed << showpoint << "\t";
+
+			if (indexSmChoice == 5 || indexSmChoice == 11)
+				output << setprecision(1);
+
+			else if (indexSmChoice == 6 || indexSmChoice == 7 || indexSmChoice == 10)
+				output << setprecision(2);
+
+			else if (indexSmChoice == 8 || indexSmChoice == 9)
+				output << setprecision(3);
+
+			else
+				output << noshowpoint << setprecision(0);
+
+			if (indexSmChoice == 5)
+				output << stats[i][indexSmChoice] * 100 << "%";
+
+			else
+				output << stats[i][indexSmChoice];
+
+			output  << endl;
+		}
+	}
+
+	for (int k = 0; k < 78; k++)
+		output << "-";
+}
+
+void printStats(double statsArray[][12], string names[], int maxIndex, int minIndex, int statToCheck, double avg, int numQBs, ostream &output){
+
+	output << endl;
+
+	printMaxValue(statsArray, names, maxIndex, statToCheck, output); // print highest
+	
+	output << endl;
+
+	printMinValue(statsArray, names, minIndex, statToCheck, output); // print lowest
+	
+	output << endl << endl;
+
+	printAvg(statToCheck, avg, output); // print average
+
+	output << endl << endl;
+
+	printValuesAbove(statsArray, names, statToCheck, avg, numQBs, output); // print QBs above average
+
+	output << endl << endl;
+
+	printValuesBelow(statsArray, names, statToCheck, avg, numQBs, output); // print QBs below average
+}
+
+void printMaxValue(double stats[][12], string names[], int maxIndex, int indexSmChoice, ostream &output){
+	output // use index found from findMaxIndex to determine the individual and print it using above decimal handling
+		<< fixed << showpoint
+		<< "The highest QB in " << findStatLabel(indexSmChoice) << " was " << names[maxIndex] << " with ";
+
 	if (indexSmChoice == 5 || indexSmChoice == 11)
 		output << setprecision(1);
 
@@ -215,50 +348,33 @@ void printOutput(char menuChoice, double stats[][12], int indexSmChoice, int ind
 
 	else
 		output << noshowpoint << setprecision(0);
-		
-	output << "The " << (menuChoice == 'H' ? "league leader in " : menuChoice == 'L' ? "last place QB in " : "")
-		<< findStatLabel(indexSmChoice) << " was " << names[index] << '\n' << "with a value of ";
 
 	if (indexSmChoice == 5)
-		output << stats[index][indexSmChoice] * 100 << "%";
+		output << stats[maxIndex][indexSmChoice] * 100 << "%";
 
 	else
-		output << stats[index][indexSmChoice];
-
-	output << ".";
+		output << stats[maxIndex][indexSmChoice];
 }
 
-void printOutput(int indexSmChoice, double avg, ostream &output){
-	output << fixed << showpoint;
-	if (indexSmChoice == 8 || indexSmChoice == 9)
+void printMinValue(double stats[][12], string names[], int minIndex, int indexSmChoice, ostream &output){
+	output		// Ditto above, but lowest
+		<< "The lowest QB in " << findStatLabel(indexSmChoice) << " was " << names[minIndex] << " with ";
+
+	if (indexSmChoice == 5 || indexSmChoice == 11)
+		output << setprecision(1);
+
+	else if (indexSmChoice == 6 || indexSmChoice == 7 || indexSmChoice == 10)
+		output << setprecision(2);
+
+	else if (indexSmChoice == 8 || indexSmChoice == 9)
 		output << setprecision(3);
 
 	else
-		output << setprecision(2);
-	
-	output << "The league average in " << findStatLabel(indexSmChoice) << " was ";
+		output << noshowpoint << setprecision(0);
 
 	if (indexSmChoice == 5)
-		output << avg * 100 << "%";
+		output << stats[minIndex][indexSmChoice] * 100 << "%";
 
 	else
-		output << avg;
-
-	output << ".";
-}
-
-char getValidMenuChoice(char choice1, char choice2, char choice3){
-	char menuChoice = getCapsLetter();
-	while (menuChoice != choice1 && menuChoice != choice2 && menuChoice != choice3){
-		cout << "Please make a valid selection: ";
-		menuChoice = getCapsLetter();
-	}
-}
-
-char getValidMenuChoice(char choice1, char choice2){
-	char menuChoice = getCapsLetter();
-	while (menuChoice != choice1 && menuChoice != choice2){
-		cout << "Please make a valid selection: ";
-		menuChoice = getCapsLetter();
-	}
+		output << stats[minIndex][indexSmChoice];
 }

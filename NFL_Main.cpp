@@ -1,7 +1,7 @@
 // Reads NFL QB Statistics From File, with Various Calculations and Ouputs
 // NFL_Project.exe
 // Programmer: Andrew Thomas
-// As of: 12/11/2015
+// As of: 12/14/2015
 
 #include "NFL_Prototypes.h"
 #include <iostream>
@@ -17,89 +17,83 @@ void main(){
 	string fileIn, fileOut;					// String for holding filename of input and output
 	ifstream statsIn, nameIn;				// Input file
 	ofstream statsOut;						// Output file
-	char menuChoice, menuChoice2;				// Menu choices
+	char menuChoice, menuChoice2;			// Menu choices
 	double stats[QBS][TOTAL_STATS];			// holds stats indexed by QB number
 	string nameQBs[QBS];					// Parallel array to hold names of QBs
-	int indexSmChoice, temp;
-	double avg;
+	int indexSmChoice, minIndex, maxIndex;	// index of stat, min value, max value
+	double avg;								// average
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 
 	
 		printTitle(cout); // Print title block
 
-		cout << "Would you like to input custom files? ";
+		cout // Prompt user for custom input files or not
+			<< "Default is full 2014 season stats for all 32 Starting QBs" << endl
+			<< "(for teams with multiple QBs, the QB with more Attempts was used)" << endl
+			<< "Would you like to use custom input files? ";
+			
 		menuChoice = getYesNo();
 		
-		if (menuChoice == 'Y'){
+		if (menuChoice == 'Y'){ // If user chooses custom files, warn of formatting issues and get filename
+			cout << "Please see readme.txt for information on formatting input files before using custom inputs." << endl << endl;
+
 			cout << "What is the filename of your stats file? ";
-			getFileName(statsIn);
+			getFileName(statsIn); // Gets filename and opens once valid
 
 			cout << "What is the filename of your name file? ";
-			getFileName(nameIn);
+			getFileName(nameIn); // Gets filename and opens once valid
 
 			cout << endl << endl;
 		}
 
 		else{
-			statsIn.open("stats.txt");
+			statsIn.open("stats.txt"); // If user does not have custom inputs, use default files
 			nameIn.open("names.txt");
 		}
 			
 		loadStatArray(statsIn, stats); // fill stats array
 		
-		statsIn.close();
+		statsIn.close(); // close stats file ASAP
 			
 		addCalcStats(stats);			// Add runtime-calculated stats
 		
-		loadNameArray(nameIn, nameQBs);
+		loadNameArray(nameIn, nameQBs); // load name array
 			
-		nameIn.close();
+		nameIn.close(); // close name file asap
 
 	while (true){
-		printStatMenu();  menuChoice = getLetterBefore('M');
+		printStatMenu();  menuChoice = getLetterBefore('M'); // user selects statistic to get rankings
 		
-		if (menuChoice == 'M'){
+		if (menuChoice == 'M'){ // if the user selects M, run exit function
 			exitProgram();
 		}
 
-		indexSmChoice = getStatIndex(menuChoice);
+		indexSmChoice = getStatIndex(menuChoice); // change letter from menu to index of stat
 
-		cout << "Would you like to get the highest, lowest or average value? ";
-		menuChoice = getValidMenuChoice('H', 'L', 'A');
+		cout << "Would you like to print to the console or a file? "; // user dictates print location
+		menuChoice2 = getValidMenuChoice('C', 'F'); // only allow c or f as choice
 
+		avg = calcAverageValue(stats, indexSmChoice,QBS);		// Calculate and store average
+		maxIndex = findIndexofMax(stats, indexSmChoice, QBS);	// Find and store index of highest in selected stat
+		minIndex = findIndexofMin(stats, indexSmChoice, QBS);	// Fine and store index of lowest in selected stat
 
-			switch (menuChoice){
-		case 'H': temp = findIndexofMax(stats, indexSmChoice);			 break;
-		case 'L': temp = findIndexofMin(stats, indexSmChoice);			 break;
-		case 'A': avg  = calcAverageValue(stats, indexSmChoice);		 break;
-		}
+		if (menuChoice2 == 'C') // If user dictates console, print to console
+			printStats(stats, nameQBs, maxIndex, minIndex, indexSmChoice, avg, QBS);
 
-		cout << "Would you like to print to the console or a file? ";
-		menuChoice2 = getValidMenuChoice('C', 'F');
+		else{  // Else prompt for output filename
+			cout << "Please enter the filename for your output file: ";
+			getFileName(statsOut); // Gets filename and opens once valid
 
-		if (menuChoice2 == 'C'){
-			if (menuChoice == 'H' || menuChoice == 'L')
-				printOutput(menuChoice, stats, indexSmChoice, temp, nameQBs);
-			else
-				printOutput(indexSmChoice, avg);
-		}
+			printStats(stats, nameQBs, maxIndex, minIndex, indexSmChoice, avg, QBS, statsOut); // Print to file
 
-		else{
-			getFileName(statsOut);
-
-			if (menuChoice == 'H' || menuChoice == 'L')
-				printOutput(menuChoice, stats, indexSmChoice, temp, nameQBs, statsOut);
-			else
-				printOutput(indexSmChoice, avg, statsOut);
-
-			statsOut.close();
+			statsOut.close(); // Close file ASAP
 		}
 
 		cout << endl << endl;
-		system("pause");
-		system("cls");
+		system("pause"); // Hold for user input
+		system("cls");	 // Clear screen to loop
 
-		printTitle();
+		printTitle(); // Print title and loop to menu (with same input files - program must be restarted in order to change input files)
 	}
 }
