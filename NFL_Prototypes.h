@@ -8,6 +8,8 @@ void printTitle(ostream &output = cout);
 
 void getFileName(ifstream &file);
 
+void getFileName(ofstream &file);
+
 // Preconditions : NONE
 // Postconditions: Prints a formatted menu
 void printMainMenu(ostream &output = cout);
@@ -32,12 +34,22 @@ char getLetterBefore(char end);
 
 void addCalcStats(double (&statsArray)[32][12], int numQBs = 32, int numFileStats = 5);
 
-void findIndexRanks(double statsArray[][12], int (&rankArray)[32], int indexOfStatToCheck = 2, int numQBs = 32);
+int findIndexofMax(double statsArray[][12], int indexOfStatToCheck, int numQBs = 32);
+
+int findIndexofMin(double statsArray[][12], int indexOfStatToCheck, int numQBs = 32);
+
+double calcAverageValue(double statsArray[][12], int indexOfStatToCheck, int numQBs = 32);
 
 int getStatIndex(char c);
 
-double getNum();
+string findStatLabel(int statIndex);
 
-int getInt();
+void printOutput(char menuChoice, double stats[][12], int indexSmChoice, int index, string names[], ostream &output = cout);
 
-int getInTheRange(int s, int e);
+void printOutput(int indexSmChoice, double avg, ostream &output = cout);
+
+char getYesNo();
+
+char getValidMenuChoice(char choice1, char choice2, char choice3);
+
+char getValidMenuChoice(char choice1, char choice2);

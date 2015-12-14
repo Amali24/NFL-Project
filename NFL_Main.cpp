@@ -6,7 +6,6 @@
 #include "NFL_Prototypes.h"
 #include <iostream>
 #include <fstream>
-#include <iomanip>
 #include <string>
 using namespace std;
 
@@ -18,45 +17,89 @@ void main(){
 	string fileIn, fileOut;					// String for holding filename of input and output
 	ifstream statsIn, nameIn;				// Input file
 	ofstream statsOut;						// Output file
-	char mmChoice, smChoice;				// Menu choices
+	char menuChoice, menuChoice2;				// Menu choices
 	double stats[QBS][TOTAL_STATS];			// holds stats indexed by QB number
 	string nameQBs[QBS];					// Parallel array to hold names of QBs
-	int rankArray[QBS];
-	int indexSmChoice, numToRank;
+	int indexSmChoice, temp;
+	double avg;
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 
-	printTitle(cout); // Print title block
-
-	cout << "What is the filename of your stats file? ";
-	getFileName(statsIn);
-
-	loadStatArray(statsIn, stats); // fill stats array
-	addCalcStats(stats);			// Add runtime-calculated stats
-
-	statsIn.close();
 	
-	cout << "What is the filename of your name file? ";
-	getFileName(nameIn);
+		printTitle(cout); // Print title block
 
-	loadNameArray(nameIn, nameQBs);
+		cout << "Would you like to input custom files? ";
+		menuChoice = getYesNo();
+		
+		if (menuChoice == 'Y'){
+			cout << "What is the filename of your stats file? ";
+			getFileName(statsIn);
 
-	nameIn.close();
+			cout << "What is the filename of your name file? ";
+			getFileName(nameIn);
 
-	cout << endl << endl;
+			cout << endl << endl;
+		}
 
-	printStatMenu();  smChoice = getLetterBefore('M'); indexSmChoice = getStatIndex(smChoice);
+		else{
+			statsIn.open("stats.txt");
+			nameIn.open("names.txt");
+		}
+			
+		loadStatArray(statsIn, stats); // fill stats array
+		
+		statsIn.close();
+			
+		addCalcStats(stats);			// Add runtime-calculated stats
+		
+		loadNameArray(nameIn, nameQBs);
+			
+		nameIn.close();
 
-	cout << "How many players would you like to rank? ";
-	numToRank = getInTheRange(0, QBS);
-	
-	for (int k = 0; k < numToRank; k++)
-		rankArray[k] = 0;
+	while (true){
+		printStatMenu();  menuChoice = getLetterBefore('M');
+		
+		if (menuChoice == 'M'){
+			exitProgram();
+		}
 
-	findIndexRanks(stats, rankArray, indexSmChoice);
+		indexSmChoice = getStatIndex(menuChoice);
 
-	for (int q = 0; q < numToRank; q++)
-		cout << nameQBs[rankArray[q]] << "\t\t" << stats[rankArray[q]][indexSmChoice] << "\n";
+		cout << "Would you like to get the highest, lowest or average value? ";
+		menuChoice = getValidMenuChoice('H', 'L', 'A');
 
-	system("pause");
+
+			switch (menuChoice){
+		case 'H': temp = findIndexofMax(stats, indexSmChoice);			 break;
+		case 'L': temp = findIndexofMin(stats, indexSmChoice);			 break;
+		case 'A': avg  = calcAverageValue(stats, indexSmChoice);		 break;
+		}
+
+		cout << "Would you like to print to the console or a file? ";
+		menuChoice2 = getValidMenuChoice('C', 'F');
+
+		if (menuChoice2 == 'C'){
+			if (menuChoice == 'H' || menuChoice == 'L')
+				printOutput(menuChoice, stats, indexSmChoice, temp, nameQBs);
+			else
+				printOutput(indexSmChoice, avg);
+		}
+
+		else{
+			getFileName(statsOut);
+
+			if (menuChoice == 'H' || menuChoice == 'L')
+				printOutput(menuChoice, stats, indexSmChoice, temp, nameQBs, statsOut);
+			else
+				printOutput(indexSmChoice, avg, statsOut);
+
+			statsOut.close();
+		}
+
+		cout << endl << endl;
+		system("pause");
+		system("cls");
+
+		printTitle();
+	}
 }
